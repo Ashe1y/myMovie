@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myMovie.mapper.ScheduleMapper">
+    <resultMap id="baseResultMap" type="schedule">
+        <id column="schedule_id" property="scheduleId"/>
+        <result column="hall_id" property="hallId"/>
+        <result column="movie_id" property="movieId"/>
+        <result column="schedule_startTime" property="scheduleStartTime"/>
+        <result column="schedule_price" property="schedulePrice"/>
+        <result column="schedule_remain" property="scheduleRemain"/>
+        <result column="schedule_state" property="scheduleState"/>
+    </resultMap>
+    <update id="updateScheduleRemain">
+        UPDATE schedule SET schedule_remain = #{row} WHERE schedule_id = #{scheduleId}
+    </update>
+
+    <select id="selectScheduleByMovieIdAndHallId" resultMap="baseResultMap">
+        SELECT * FROM schedule WHERE movie_id = #{movieId} AND hall_id = #{hallId}
+    </select>
+    <select id="selectByCinemaIdAndMovieId" resultMap="baseResultMap">
+        SELECT * FROM schedule t1
+            INNER JOIN hall t2 ON t1.hall_id = t2.hall_id
+            WHERE t1.movie_id = #{movieId}
+            AND t2.cinema_id = #{cinemaId}
+    </select>
+    <select id="selectScheduleById" resultMap="baseResultMap">
+        SELECT * FROM schedule WHERE schedule_id = #{scheduleId}
+    </select>
+</mapper>

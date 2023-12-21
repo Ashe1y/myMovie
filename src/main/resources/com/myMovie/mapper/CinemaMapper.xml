@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myMovie.mapper.CinemaMapper">
+
+    <resultMap id="baseResultMap" type="cinema">
+        <id column="cinema_id" property="cinemaId"/>
+        <result column="cinema_name" property="cinemaName"/>
+        <result column="cinema_address" property="cinemaAddress"/>
+    </resultMap>
+    <select id="selectCinemaByMovieId" resultMap="baseResultMap">
+        SELECT DISTINCT t3.* FROM
+                                  schedule t1 INNER JOIN hall t2 ON t1.hall_id = t2.hall_id
+                                  INNER JOIN cinema t3 ON t3.cinema_id = t2.cinema_id
+                                WHERE t1.movie_id = #{movieId}
+    </select>
+    <select id="selectCinemaByHallId" resultMap="baseResultMap">
+        SELECT t1.* FROM
+                         cinema t1 INNER JOIN hall t2 ON t2.cinema_id = t1.cinema_id
+                        WHERE t2.hall_id = #{hallId}
+    </select>
+</mapper>

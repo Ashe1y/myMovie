@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myMovie.mapper.MovieMapper">
+
+    <resultMap id="baseResultMap" type="movie">
+        <id column="movie_id" property="movieId" />
+        <result column="movie_cn_name" property="movieCnName" />
+        <result column="movie_fg_name" property="movieFgName" />
+        <result column="movie_actor" property="movieActor" />
+        <result column="movie_director" property="movieDirector" />
+        <result column="movie_detail" property="movieDetail" />
+        <result column="movie_duration" property="movieDuration" />
+        <result column="movie_type" property="movieType" />
+        <result column="movie_score" property="movieScore" />
+        <result column="movie_boxOffice" property="movieBoxOffice" />
+        <result column="movie_commentCount" property="movieCommentCount" />
+        <result column="movie_releaseDate" property="movieReleaseDate" />
+        <result column="movie_country" property="movieCountry" />
+        <result column="movie_picture" property="moviePicture" />
+        <result column="movie_state" property="movieState" />
+    </resultMap>
+    <update id="updateCommentCount">
+        UPDATE movie SET movie_commentCount = movie_commentCount+#{row} WHERE movie_id = #{movieId}
+    </update>
+
+    <select id="selectAllByMovieState" resultMap="baseResultMap">
+        SELECT * FROM movie WHERE movie_state = #{movieState}
+    </select>
+
+    <select id="selectAllMoviesByBoxOffice" resultMap="baseResultMap">
+        SELECT * FROM movie WHERE movie_state ORDER BY movie_boxOffice DESC
+    </select>
+
+    <select id="selectMovies" resultMap="baseResultMap">
+        SELECT * FROM movie
+        <where>
+            <if test="movieType != null and movieType != ''">
+                AND movie_type LIKE CONCAT("%",#{movieType},"%")
+            </if>
+            <if test="movieCountry != null and movieCountry != ''">
+                AND movie_country LIKE CONCAT("%",#{movieCountry},"%")
+            </if>
+            <if test="movieYear != null and movieYear != ''">
+                AND YEAR(movie_releaseDate) = #{movieYear}
+            </if>
+        </where>
+        <if test="orderType != null and orderType != ''">
+            ORDER BY ${orderType} DESC
+        </if>
+    </select>
+    <select id="selectMovieById" resultMap="baseResultMap">
+        SELECT * FROM movie WHERE movie_id = #{movieId}
+    </select>
+    <select id="selectMoveByCommentId" resultMap="baseResultMap">
+        SELECT t2.* FROM comment t1 INNER JOIN movie t2 ON t1.movie_id = t2.movie_id WHERE t1.comment_id = #{commentId}
+    </select>
+
+</mapper>

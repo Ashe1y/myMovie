@@ -1,0 +1,23 @@
+<configuration>
+    <!-- 追加器 日志以哪种形式进行输出 不同的实现类会输出到不同的地方-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 具体输出日志的格式-->
+        <encoder>
+            <pattern>%d{YYYY-MM-dd  HH:mm:ss} [%thread] -%5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 设置日志输出的级别-->
+    <root level="DEBUG">
+        <!--
+                默认按照上述追加器 输出到指定位置
+                使用 STDOUT 则输出在控制台
+                使用 FILE  则输出在指定文件中
+        -->
+        <appender-ref ref="STDOUT" />
+    </root>
+
+
+
+
+</configuration>

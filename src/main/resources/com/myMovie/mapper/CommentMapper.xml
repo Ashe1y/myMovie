@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myMovie.mapper.CommentMapper">
+
+    <resultMap id="baseResultMap" type="comment">
+        <id column="comment_id" property="commentId" />
+        <result column="user_id" property="userId" />
+        <result column="comment_content" property="commentContent" />
+        <result column="movie_id" property="movieId" />
+        <result column="comment_time" property="commentTime" />
+    </resultMap>
+    <insert id="insertCommentByUser">
+        INSERT INTO comment VALUES (DEFAULT,#{userId},#{commentContent},#{movieId},#{date})
+    </insert>
+    <update id="updateCommentContentById">
+        UPDATE comment SET comment_content = #{commentContent} WHERE comment_id = #{commentId}
+    </update>
+    <select id="selectCommentByMovieId" resultMap="baseResultMap">
+        SELECT * FROM comment WHERE movie_id = #{movieId}
+    </select>
+    <delete id="deleteCommentById">
+        DELETE FROM comment WHERE comment_id = #{commentId}
+    </delete>
+
+
+</mapper>

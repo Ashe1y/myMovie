@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myMovie.mapper.HallMapper">
+    <resultMap id="baseResultMap" type="hall">
+        <id column="hall_id" property="hallId"/>
+        <result column="hall_name" property="hallName"/>
+        <result column="hall_capacity" property="hallCapacity"/>
+        <result column="cinema_id" property="cinemaId"/>
+    </resultMap>
+    <select id="selectHallByMovieIdAndCinemaId" resultMap="baseResultMap">
+        SELECT DISTINCT t2.* FROM schedule t1 INNER JOIN hall t2 ON t1.hall_id = t2.hall_id WHERE t1.movie_id = #{movieId} AND t2.cinema_id = #{cinemaId}
+    </select>
+    <select id="selectHallByHallId" resultMap="baseResultMap">
+        SELECT * FROM hall WHERE hall_id = #{hallId}
+    </select>
+
+</mapper>
